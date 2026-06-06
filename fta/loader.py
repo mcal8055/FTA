@@ -59,6 +59,24 @@ def load_metadata(path: Path | str) -> dict:
     return meta
 
 
+def despike(col: np.ndarray, win: int = 7, n_sigma: float = 4.0) -> np.ndarray:
+    """Hampel filter: replace points far from a rolling median (tracking glitches,
+    e.g. a keypoint teleporting for a few frames near the recording boundary)."""
+    col = np.asarray(col, float)
+    n = len(col)
+    if n < win:
+        return col
+    h = win // 2
+    out = col.copy()
+    for i in range(n):
+        seg = col[max(0, i - h):min(n, i + h + 1)]
+        med = np.median(seg)
+        mad = np.median(np.abs(seg - med)) + 1e-9
+        if np.abs(col[i] - med) > n_sigma * 1.4826 * mad:
+            out[i] = med
+    return out
+
+
 def _vec(c) -> list[float]:
     """Coerce a coord (possibly None / contains None) to a float3 with NaN for missing."""
     if c is None:

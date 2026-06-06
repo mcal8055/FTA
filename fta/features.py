@@ -13,7 +13,7 @@ from __future__ import annotations
 import numpy as np
 from scipy.signal import savgol_filter
 
-from .loader import Tracking
+from .loader import Tracking, despike
 from .release import body_release_frame, detect_handedness
 
 WIN_BEFORE_S = 1.0    # window start before release
@@ -29,7 +29,7 @@ def _angle(a, b, c):
 
 
 def _smooth(arr, fps):
-    """Savitzky-Golay smooth each column; window ~ 0.18 s, robust to short/NaN series."""
+    """Despike then Savitzky-Golay smooth each column; window ~0.18 s, NaN-robust."""
     out = arr.copy()
     n = len(arr)
     win = max(5, int(round(0.18 * fps)) | 1)   # odd
@@ -43,6 +43,7 @@ def _smooth(arr, fps):
             if good.sum() < win:
                 continue
             col = np.interp(idx, idx[good], col[good])
+        col = despike(col)
         out[:, k] = savgol_filter(col, win, 3)
     return out
 

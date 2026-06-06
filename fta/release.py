@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from .loader import Tracking
+from .loader import Tracking, despike
 
 
 def detect_handedness(tk: Tracking) -> str:
@@ -60,14 +60,17 @@ def body_release_frame(tk: Tracking, hand: str | None = None,
     label) aligns the snap peak to the ball-separation convention. Default +3 frames."""
     if hand is None:
         hand = detect_handedness(tk)
-    wz = shooting_wrist(tk, hand)[:, 2]
+    wz = despike(shooting_wrist(tk, hand)[:, 2])   # ignore boundary tracking glitches
     if np.all(np.isnan(wz)):
         return None
-    top = int(np.nanargmax(wz))           # wrist apex (end of push / follow-through)
+    n = len(wz)
+    # apex = highest wrist within the interior (exclude first/last 3 frames of junk)
+    interior = slice(3, n - 3)
+    top = 3 + int(np.nanargmax(wz[interior]))
     if top < 6:
         return None
-    elbv = np.gradient(_elbow_angle(tk, hand), tk.time)   # +ve = extending
-    lo, hi = max(1, top - 40), min(len(wz), top + 6)
+    elbv = despike(np.gradient(_elbow_angle(tk, hand), tk.time))   # +ve = extending
+    lo, hi = max(1, top - 40), min(n, top + 6)
     seg = elbv[lo:hi]
     if seg.size == 0 or np.all(np.isnan(seg)):
         return None
