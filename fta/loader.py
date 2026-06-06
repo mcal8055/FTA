@@ -9,6 +9,8 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
+import numpy as np
+
 from .config import DATA_DIR, SESSION_2025, TARGET_FIELDS
 
 
@@ -55,3 +57,38 @@ def load_metadata(path: Path | str) -> dict:
     for field, target in TARGET_FIELDS.items():
         meta[target] = d.get(field)
     return meta
+
+
+def _vec(c) -> list[float]:
+    """Coerce a coord (possibly None / contains None) to a float3 with NaN for missing."""
+    if c is None:
+        return [np.nan, np.nan, np.nan]
+    return [np.nan if v is None else float(v) for v in c]
+
+
+@dataclass
+class Tracking:
+    time: np.ndarray                      # (n,) seconds
+    ball: np.ndarray                      # (n, 3) feet, NaN where out of volume
+    players: dict[str, np.ndarray]        # joint -> (n, 3) feet, NaN where missing
+    sampling_rate: int
+    joints: tuple[str, ...]
+
+    def joint(self, name: str) -> np.ndarray:
+        return self.players[name]
+
+
+def load_tracking(path: Path | str) -> Tracking:
+    """Extract time + ball + all player joints as (n_frames, 3) arrays (NaN-aware)."""
+    d = load_raw(path)
+    tr = d["tracking"]
+    n = len(tr)
+    time = np.array([fr["time"] for fr in tr], float) / 1000.0   # ms -> s
+    ball = np.array([_vec(fr["data"].get("ball")) for fr in tr], float)
+    joints = tuple(tr[0]["data"]["player"].keys())
+    players = {
+        j: np.array([_vec(fr["data"]["player"].get(j)) for fr in tr], float)
+        for j in joints
+    }
+    return Tracking(time=time, ball=ball, players=players,
+                    sampling_rate=int(d.get("sampling_rate", 0)), joints=joints)

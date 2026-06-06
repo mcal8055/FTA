@@ -36,6 +36,18 @@ SCALER_BOUNDS = {
     "left_right": (-16.0, 16.0),
 }
 
+# --- Markers -----------------------------------------------------------------
+# Reliable, biomechanically meaningful skeleton (clean in both sessions; excludes
+# fingers, which are 2025-only, and redundant face points). Used for the default
+# feature set. Sided markers resolved to shooting/support side at feature time.
+CORE_MARKERS = [
+    "NOSE", "NECK", "MID_HIP",
+    "LEFT_SHOULDER", "RIGHT_SHOULDER", "LEFT_ELBOW", "RIGHT_ELBOW",
+    "LEFT_WRIST", "RIGHT_WRIST", "LEFT_HIP", "RIGHT_HIP",
+    "LEFT_KNEE", "RIGHT_KNEE", "LEFT_ANKLE", "RIGHT_ANKLE",
+    "LEFT_BIG_TOE", "RIGHT_BIG_TOE", "LEFT_HEEL", "RIGHT_HEEL",
+]
+
 # --- Reproducibility ---------------------------------------------------------
 RANDOM_SEED = 1561737          # fixed project seed (derived from user id)
 HOLDOUT_FRAC = 0.20            # fraction of each player's shots reserved as locked test set
