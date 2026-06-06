@@ -1,0 +1,146 @@
+{
+  "n_dev": 365,
+  "make_rate": 0.671,
+  "distributions": {
+    "angle": {
+      "mean": 45.629,
+      "sd": 4.682,
+      "min": 29.5,
+      "q25": 42.65,
+      "median": 45.0,
+      "q75": 48.31,
+      "max": 58.56
+    },
+    "depth": {
+      "mean": 9.808,
+      "sd": 5.204,
+      "min": -10.17,
+      "q25": 6.94,
+      "median": 10.21,
+      "q75": 13.17,
+      "max": 24.97
+    },
+    "left_right": {
+      "mean": -0.941,
+      "sd": 3.829,
+      "min": -12.98,
+      "q25": -3.41,
+      "median": -0.75,
+      "q75": 1.47,
+      "max": 10.15
+    }
+  },
+  "inter_target_corr": {
+    "angle~depth": {
+      "pearson": -0.143,
+      "spearman": -0.132
+    },
+    "angle~left_right": {
+      "pearson": 0.096,
+      "spearman": 0.054
+    },
+    "depth~left_right": {
+      "pearson": -0.046,
+      "spearman": -0.108
+    }
+  },
+  "per_player": {
+    "P0001": {
+      "n": 70,
+      "make_rate": 0.7,
+      "angle": {
+        "mean": 42.65,
+        "sd": 1.99
+      },
+      "depth": {
+        "mean": 11.06,
+        "sd": 4.23
+      },
+      "left_right": {
+        "mean": -0.15,
+        "sd": 3.68
+      }
+    },
+    "P0002": {
+      "n": 74,
+      "make_rate": 0.568,
+      "angle": {
+        "mean": 44.45,
+        "sd": 1.42
+      },
+      "depth": {
+        "mean": 11.73,
+        "sd": 4.56
+      },
+      "left_right": {
+        "mean": -0.99,
+        "sd": 4.37
+      }
+    },
+    "P0003": {
+      "n": 72,
+      "make_rate": 0.903,
+      "angle": {
+        "mean": 47.88,
+        "sd": 1.57
+      },
+      "depth": {
+        "mean": 9.64,
+        "sd": 2.38
+      },
+      "left_right": {
+        "mean": -1.12,
+        "sd": 2.77
+      }
+    },
+    "P0004": {
+      "n": 71,
+      "make_rate": 0.718,
+      "angle": {
+        "mean": 52.41,
+        "sd": 2.73
+      },
+      "depth": {
+        "mean": 8.81,
+        "sd": 5.19
+      },
+      "left_right": {
+        "mean": -0.41,
+        "sd": 4.08
+      }
+    },
+    "P0005": {
+      "n": 78,
+      "make_rate": 0.487,
+      "angle": {
+        "mean": 41.17,
+        "sd": 3.52
+      },
+      "depth": {
+        "mean": 7.91,
+        "sd": 7.28
+      },
+      "left_right": {
+        "mean": -1.93,
+        "sd": 3.88
+      }
+    }
+  },
+  "made_miss_dispersion": {
+    "angle": {
+      "sd_made": 4.39,
+      "sd_miss": 5.03,
+      "var_ratio_miss_made": 1.31
+    },
+    "depth": {
+      "sd_made": 3.12,
+      "sd_miss": 7.87,
+      "var_ratio_miss_made": 6.37
+    },
+    "left_right": {
+      "sd_made": 2.66,
+      "sd_miss": 5.44,
+      "var_ratio_miss_made": 4.19
+    }
+  }
+}

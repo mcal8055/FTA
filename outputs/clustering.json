@@ -1,0 +1,60 @@
+{
+  "global_cluster_vs_player": {
+    "ari": 1.0,
+    "null_mean": 0.0,
+    "null_p95": 0.007,
+    "verdict": "clusters track player identity"
+  },
+  "within_player_consistency": {
+    "per_player": {
+      "P0001": {
+        "form_dispersion": 2.617,
+        "make_rate": 0.7
+      },
+      "P0002": {
+        "form_dispersion": 2.113,
+        "make_rate": 0.568
+      },
+      "P0003": {
+        "form_dispersion": 1.351,
+        "make_rate": 0.903
+      },
+      "P0004": {
+        "form_dispersion": 4.05,
+        "make_rate": 0.718
+      },
+      "P0005": {
+        "form_dispersion": 3.132,
+        "make_rate": 0.487
+      }
+    },
+    "corr_dispersion_vs_makerate": -0.415,
+    "note": "n=5 players -> anecdotal"
+  },
+  "miss_taxonomy": {
+    "mode_0": {
+      "n": 31,
+      "angle": 43.9,
+      "depth": 10.2,
+      "left_right": 5.2
+    },
+    "mode_1": {
+      "n": 47,
+      "angle": 45.2,
+      "depth": 14.9,
+      "left_right": -5.3
+    },
+    "mode_2": {
+      "n": 29,
+      "angle": 39.7,
+      "depth": 2.4,
+      "left_right": -4.8
+    },
+    "mode_3": {
+      "n": 13,
+      "angle": 53.1,
+      "depth": -0.4,
+      "left_right": 1.9
+    }
+  }
+}

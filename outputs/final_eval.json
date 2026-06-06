@@ -1,0 +1,132 @@
+{
+  "test": {
+    "global_mean": {
+      "scaled_mse": 0.023411521029686837,
+      "per_target": {
+        "angle": {
+          "rmse": 5.590712800911685,
+          "skill_vs_player": -1.8198962309826783
+        },
+        "depth": {
+          "rmse": 5.827342683075816,
+          "skill_vs_player": -0.0982289101322793
+        },
+        "left_right": {
+          "rmse": 4.079852388664329,
+          "skill_vs_player": 0.03397653479503404
+        }
+      }
+    },
+    "player_mean": {
+      "scaled_mse": 0.015557059125307235,
+      "per_target": {
+        "angle": {
+          "rmse": 3.3292822800420687,
+          "skill_vs_player": 0.0
+        },
+        "depth": {
+          "rmse": 5.5606315819453895,
+          "skill_vs_player": 0.0
+        },
+        "left_right": {
+          "rmse": 4.150979728320715,
+          "skill_vs_player": 0.0
+        }
+      }
+    },
+    "ridge": {
+      "scaled_mse": 0.015467603047945496,
+      "per_target": {
+        "angle": {
+          "rmse": 3.3825555546657,
+          "skill_vs_player": -0.032258904095381125
+        },
+        "depth": {
+          "rmse": 5.415267226460406,
+          "skill_vs_player": 0.05160000901992401
+        },
+        "left_right": {
+          "rmse": 4.18033330524884,
+          "skill_vs_player": -0.014192969128359545
+        }
+      }
+    },
+    "hgb": {
+      "scaled_mse": 0.014735875153440084,
+      "per_target": {
+        "angle": {
+          "rmse": 3.127042396687552,
+          "skill_vs_player": 0.1178015296294257
+        },
+        "depth": {
+          "rmse": 5.4827328169012475,
+          "skill_vs_player": 0.027821704374592304
+        },
+        "left_right": {
+          "rmse": 4.085702449365894,
+          "skill_vs_player": 0.031204205288482112
+        }
+      }
+    },
+    "hgb_skill_vs_global_mean": {
+      "angle": {
+        "skill": 0.687,
+        "ci95": [
+          0.594,
+          0.796
+        ]
+      },
+      "depth": {
+        "skill": 0.115,
+        "ci95": [
+          -0.081,
+          0.265
+        ]
+      },
+      "left_right": {
+        "skill": -0.003,
+        "ci95": [
+          -0.19,
+          0.122
+        ]
+      }
+    },
+    "hgb_skill_vs_player_mean": {
+      "angle": {
+        "skill": 0.118,
+        "ci95": [
+          -0.104,
+          0.268
+        ]
+      },
+      "depth": {
+        "skill": 0.028,
+        "ci95": [
+          -0.15,
+          0.181
+        ]
+      },
+      "left_right": {
+        "skill": 0.031,
+        "ci95": [
+          -0.131,
+          0.153
+        ]
+      }
+    }
+  },
+  "ood_2024": {
+    "angle": {
+      "rmse": 2.867933218996366,
+      "skill_vs_p0001_mean": -0.7654229116733278
+    },
+    "depth": {
+      "rmse": 4.224759697311389,
+      "skill_vs_p0001_mean": -0.015168507444992985
+    },
+    "left_right": {
+      "rmse": 4.830243164168293,
+      "skill_vs_p0001_mean": -0.8609929882701528
+    }
+  }
+}

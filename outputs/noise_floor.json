@@ -1,0 +1,22 @@
+{
+  "n_fit": 365,
+  "ball_fit_residual_in": {
+    "median": 4.114,
+    "mean": 8.245
+  },
+  "angle_floor_deg": {
+    "rmse": 7.774,
+    "mae": 5.528,
+    "corr": 0.422
+  },
+  "position_floor_in": {
+    "depth": {
+      "rmse": 5.035,
+      "corr": 0.248
+    },
+    "left_right": {
+      "rmse": 3.604,
+      "corr": 0.334
+    }
+  }
+}

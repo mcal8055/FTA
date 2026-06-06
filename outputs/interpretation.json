@@ -1,0 +1,76 @@
+{
+  "angle": {
+    "icc_between_player": 0.778,
+    "top_shap": {
+      "peak_wrist_speed": 1.9363,
+      "wrist_jerk_norm": 1.085,
+      "release_knee_shoot": 0.5055,
+      "release_wrist_forward": 0.3517,
+      "release_elbow_ext_vel": 0.3403,
+      "release_wrist_height": 0.2419,
+      "release_handpath_elevation": 0.2144,
+      "rom_elbow": 0.2055
+    },
+    "mixedlm_fdr_significant": {
+      "hand_right": {
+        "coef": -1.67,
+        "q": 0.0283
+      },
+      "release_knee_shoot": {
+        "coef": 2.379,
+        "q": 0.0006
+      },
+      "peak_wrist_speed": {
+        "coef": 2.865,
+        "q": 0.0003
+      },
+      "t_deepest_knee_to_release": {
+        "coef": 0.424,
+        "q": 0.0283
+      },
+      "t_peak_wrist_speed_to_release": {
+        "coef": -0.691,
+        "q": 0.0159
+      }
+    },
+    "agree_shap_and_mixedlm": [
+      "peak_wrist_speed",
+      "release_knee_shoot"
+    ]
+  },
+  "depth": {
+    "icc_between_player": 0.078,
+    "top_shap": {
+      "com_sway": 0.7057,
+      "release_wrist_height": 0.6972,
+      "rom_elbow": 0.5938,
+      "stance_width": 0.515,
+      "peak_wrist_speed": 0.4813,
+      "release_knee_shoot": 0.432,
+      "peak_elbow_ext_vel": 0.4272,
+      "release_trunk_lean": 0.3752
+    },
+    "mixedlm_fdr_significant": {},
+    "agree_shap_and_mixedlm": []
+  },
+  "left_right": {
+    "icc_between_player": 0.02,
+    "top_shap": {
+      "release_wrist_forward": 0.3972,
+      "rom_elbow": 0.3901,
+      "release_elbow_angle": 0.3837,
+      "rom_wrist_height": 0.3797,
+      "stance_width": 0.3626,
+      "release_wrist_speed": 0.3168,
+      "peak_elbow_ext_vel": 0.281,
+      "release_trunk_lean": 0.2443
+    },
+    "mixedlm_fdr_significant": {
+      "release_elbow_ext_vel": {
+        "coef": -3.44,
+        "q": 0.0378
+      }
+    },
+    "agree_shap_and_mixedlm": []
+  }
+}
