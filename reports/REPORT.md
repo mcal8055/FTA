@@ -83,6 +83,27 @@ again, a consistent shooter's personal average is hard to beat.
 4. **Biomechanical patterns → repeatable form?** Compact, low-dispersion mechanics associate with higher
    accuracy; depth/L-R scatter is the hard, largely unmodeled part.
 
+## 4b. Does opening up the full time series help? (No — data is the bottleneck)
+We tested whether richer representation closes the gap, using **MiniRocket** (random convolutional
+kernels + RidgeCV) on the **full release-aligned multivariate series** (all ~70 keypoints, mid-hip
+centered, left-handers mirrored) — train-split CV only, identical folds to the scalar model.
+
+| model | Scheme A (same shooters) | Scheme B (new shooter) |
+|---|---|---|
+| MiniRocket (full series) | 0.01177 | 0.0416 |
+| 37 scalar features (ridge) | 0.01212 | 0.0490 |
+| per-player-mean baseline | 0.01254 | **0.0227** |
+
+- Full series beats 37 scalars by only ~3% (within noise) and barely beats the per-shooter mean.
+- **Both models overfit shooter identity badly** — leave-one-player-out is ~2× *worse* than predicting
+  the mean. With 5 shooters, a 10k-feature model memorizes who is shooting.
+- **Conclusion: the binding constraint is data (5 players / 345 shots), not model class or feature
+  richness.** This also implies a data-hungry transformer (e.g. PatchTST) would do worse here, not
+  better — confirmed empirically, not just argued. Added fingertip launch-vector + hoop-relative aim
+  features rescued left/right (R² −0.14 → +0.15) and brought our official-split error to ~0.0116
+  (~1.9× the winner's 0.006136); the remaining gap is concentrated in depth and is not closed by
+  full-series modeling.
+
 ## 5. Limitations / threats to validity
 - **n=5 shooters:** Scheme B and ICC are directional, not precise; between-shooter claims are anecdotal.
 - **Targets carry measurement noise** (provider "theoretical" values; ball noisy) → a ceiling on depth/LR
