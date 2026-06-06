@@ -48,6 +48,11 @@ CORE_MARKERS = [
     "LEFT_BIG_TOE", "RIGHT_BIG_TOE", "LEFT_HEEL", "RIGHT_HEEL",
 ]
 
+# Rim center (feet). The Kaggle CSV frame puts it at (5.25,-25,10), but our features
+# are computed from the SPL JSON, whose frame is different. Empirically (median of 245
+# made-shot ball crossings, IQR +-0.2) the rim in the JSON frame is ~(41.67, 0, 10).
+RIM = (41.67, 0.0, 10.0)
+
 # --- Reproducibility ---------------------------------------------------------
 RANDOM_SEED = 1561737          # fixed project seed (derived from user id)
 HOLDOUT_FRAC = 0.20            # fraction of each player's shots reserved as locked test set

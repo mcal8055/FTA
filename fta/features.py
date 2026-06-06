@@ -13,6 +13,7 @@ from __future__ import annotations
 import numpy as np
 from scipy.signal import savgol_filter
 
+from .config import RIM
 from .loader import Tracking, despike
 from .release import body_release_frame, detect_handedness
 
@@ -77,9 +78,15 @@ def extract_features(tk: Tracking, with_fingers: bool = False) -> dict:
     ANK_s = "RIGHT_ANKLE" if hand == "R" else "LEFT_ANKLE"
     ANK_o = "LEFT_ANKLE" if hand == "R" else "RIGHT_ANKLE"
 
-    J = {name: _smooth(tk.joint(name), fps) for name in (
-        "NOSE", "NECK", "MID_HIP", SH_s, SH_o, EL_s, WR_s, HIP_s, HIP_o,
-        KNEE_s, KNEE_o, ANK_s, ANK_o)}
+    SIDE = "RIGHT" if hand == "R" else "LEFT"
+    FINGERS = [f"{SIDE}_SECOND_FINGER_DISTAL", f"{SIDE}_THIRD_FINGER_DISTAL",
+               f"{SIDE}_FIRST_FINGER_DISTAL", f"{SIDE}_FIFTH_FINGER_DISTAL"]
+    names = ["NOSE", "NECK", "MID_HIP", SH_s, SH_o, EL_s, WR_s, HIP_s, HIP_o,
+             KNEE_s, KNEE_o, ANK_s, ANK_o]
+    have_fingers = all(f in tk.players and not np.all(np.isnan(tk.joint(f))) for f in FINGERS)
+    if have_fingers:
+        names += FINGERS
+    J = {name: _smooth(tk.joint(name), fps) for name in names}
 
     # window indices
     lo = max(0, rel - int(round(WIN_BEFORE_S * fps)))
@@ -173,5 +180,34 @@ def extract_features(tk: Tracking, with_fingers: bool = False) -> dict:
         f["wrist_jerk_norm"] = float(np.sqrt(np.mean((js**2).sum(1))) * dur**3 / (path + 1e-6))
     else:
         f["wrist_jerk_norm"] = np.nan
+
+    # ---- fingertip launch vector + hoop-relative aim (the depth/L-R signal) ----
+    # Shooting-hand index+middle fingertips = ball's last contact ~ launch direction.
+    # Aim error = angle between launch velocity and the straight line to the rim.
+    if have_fingers:
+        rim = np.array(RIM)
+        idx_d, mid_d = J[FINGERS[0]], J[FINGERS[1]]
+        thumb_d, pinky_d = J[FINGERS[2]], J[FINGERS[3]]
+        tip = (idx_d + mid_d) / 2.0                  # launch point series
+        tip_v = _vel(tip, t)
+        p0, v0 = tip[rel], tip_v[rel]                # release point & launch velocity
+        to_hoop = rim - p0                           # straight line to rim
+        f["release_fingertip_height"] = _safe(p0[2])
+        f["finger_spread"] = _safe(np.linalg.norm((idx_d - pinky_d)[rel]))
+        f["launch_speed"] = _safe(np.linalg.norm(v0))
+        f["dist_to_rim"] = _safe(np.linalg.norm(to_hoop[:2]))
+        # horizontal signed aim error (left/right): angle between launch & to-hoop in xy
+        a, b = v0[:2], to_hoop[:2]
+        cross = a[0]*b[1] - a[1]*b[0]
+        dot = a @ b
+        f["aim_error_lateral"] = _safe(np.degrees(np.arctan2(cross, dot)))
+        # launch elevation and its offset from the direct line to the rim
+        lel = np.degrees(np.arctan2(v0[2], np.linalg.norm(v0[:2])))
+        hel = np.degrees(np.arctan2(to_hoop[2], np.linalg.norm(to_hoop[:2])))
+        f["launch_elevation"] = _safe(lel)
+        f["launch_elev_above_line"] = _safe(lel - hel)
+        # fingertip position relative to rim at release (feet)
+        f["release_fwd_to_rim"] = _safe(to_hoop[0])
+        f["release_lat_to_rim"] = _safe(to_hoop[1])
 
     return f
