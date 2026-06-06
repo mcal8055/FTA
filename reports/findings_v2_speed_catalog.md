@@ -34,3 +34,18 @@
 Pivot v2 from "recover speed for depth" to **sharpening angle & left/right through better launch-direction
 estimation** (direction is observable; a denoised, possibly forward-kinematics-based release-direction
 should beat single-instant finite differences). Keep depth honest as a noise-limited target.
+
+## Direction-refinement test — negative (signal already saturated)
+Added 10 refined launch-direction features (denoised fingertip-velocity direction, hand-path displacement
+direction, arm/forearm pointing → lateral aim + elevation vs the rim line) and tested on DEV Scheme-A CV
+(`scripts/direction_eval.py`):
+- **RidgeCV:** direction features *hurt* every target (it shrinks all coefficients, can't drop noise).
+- **LassoCV** (zeros out noise features): only sub-noise gains (angle −0.0002, depth −0.0017, left_right
+  −0.0008; all within the ~0.005 seed SD).
+- The existing 37 features already include `aim_error_lateral`, `launch_elevation`, `release_handpath_azimuth`
+  — so the refinements are noisier duplicates. **Direction signal is saturated.**
+- Incidental real finding: **Lasso > Ridge** as base model (angle 0.0071 vs 0.0076, depth 0.0172 vs 0.0203).
+
+**Bottom line:** the principled v2 levers (full-series representation, physics decoding, direction
+refinement) are exhausted; our ceiling is ~0.011–0.012 vs the winner's 0.0061, with depth noise-limited.
+The remaining gap is not reachable through these routes.
