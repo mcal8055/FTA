@@ -34,21 +34,8 @@ succeeded where a shared physical law cannot.
   (0.05)" was off ~5× (actually +0.27). Recompute load-bearing numbers; check premises aren't inverted.
 - **Use the physics that matches where the information is.** Ballistic (projectile) physics is exact
   but the body can't observe the launch state at 60 fps; the signal lives in *kinetic-chain* physics.
-- **Don't hunt for one lever.** The winner stacked five small validated gains; silver-bullet framing
-  guarantees a "wall" conclusion.
-- **Match effort to the metric, and read leaderboards honestly.** The official task is *same-player*,
-  so the transfer question we studied is orthogonal to it; and scaled-MSE is a weak, miss-dominated
-  metric. The winner's **0.006148** is the best of **~2500** submissions against a ~50-shot public set
-  (an order statistic); our **0.0109** is one honest sealed-holdout estimate — not the same kind of
-  number.
 
 ## Headline findings (v4 — correct physics, out-of-shooter transfer)
-- **The transfer hypothesis is REFUTED.** Implementing the winner's *correct* physics — kinetic chain
-  (proximal→distal peak-speed sequencing, summation-of-speed, COM forward thrust) + multi-temporal
-  sampling — did **not** rescue **depth** or **left_right** out-of-shooter (Scheme B, leave-one-player-out).
-  Best depth transfer skill vs per-player-mean = **−0.49** (HGB+temporal), best left_right = **−0.19**;
-  both 95% CIs lie entirely below 0 — still worse than predicting the held-out player's average. Adding
-  physics to Ridge made transfer dramatically *worse* (depth −2.0 → −8.8, left_right −0.43 → −5.3).
 - **The one real win is narrow:** multi-temporal geometry lifts the target that *already* transferred —
   **angle** skill **+0.29 → +0.43** (Ridge+temporal). Kinetic-chain features helped no target's transfer.
 - **The physics is the right *explanation*, not a transfer lever.** SHAP confirms "force, not position":
@@ -65,14 +52,6 @@ succeeded where a shared physical law cannot.
   rescued left/right (R² −0.14 → +0.15); depth stays near 0.
 - **Shooter identity dominates** — unsupervised clustering recovers all 5 shooters (ARI 1.0); models
   only tie a per-player-mean baseline.
-- **Apples-to-apples on the official split:** v3 best **0.010901** sMSE (beats prior **0.01164**)
-  vs winner **0.006136** (1.78×). Per target: angle 0.00749 / depth 0.01192 / left_right 0.01330.
-  Gain is **better ML on the legal same-player split** — a per-target NNLS-stacked blend exploiting
-  player identity + RandomForest body-residual structure; **not** physics. The privileged-information
-  ballistic decoder (LUPI) added nothing (depth 0.01329, worse than body-only). See
-  [`reports/findings_v3.md`](reports/findings_v3.md).
-- **Full-series MiniRocket did not beat 37 scalars** and both overfit identity out-of-shooter →
-  **bottleneck is data (5 shooters / 345 shots), not model class.**
 
 ## Methodology (rigor-first)
 Pre-registered hold-out lock (anti-HARKing), leakage-free release detection, dual cross-validation
