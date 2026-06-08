@@ -1,6 +1,6 @@
 # FTA — Free-Throw Biomechanics: Predicting Shot Landing from Body Motion
 
-Rigorous, retrospective study of the **SPLxUTSPAN 2026** data challenge: predict three continuous
+Retrospective study of the **SPLxUTSPAN 2026** data challenge: predict three continuous
 free-throw landing outcomes — **entry angle, depth, left/right** — from markerless motion-capture
 **body keypoints only**.
 
