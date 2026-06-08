@@ -45,6 +45,51 @@ Pre-registered hold-out lock (anti-HARKing), leakage-free release detection, dua
 negative results — including those that overturned our own earlier claims. See
 [`reports/REPORT.md`](reports/REPORT.md) and the frozen [`reports/preregistration.md`](reports/preregistration.md).
 
+## Models
+- **Baselines** — global mean; per-player mean; player-identity one-hot.
+- **Linear** — Ridge, Lasso, ElasticNet (α by CV).
+- **Trees** — HistGradientBoosting (squared & absolute loss), RandomForest.
+- **Full series** — MiniRocket (5k random convolutional kernels) + RidgeCV.
+- **Physics** — analytic *differentiable ballistic decoder*; privileged-information (LUPI) body→launch-state
+  regressor feeding that decoder (ball used as a training-only teacher).
+- **Stacked (competition split)** — per-target NNLS blend over {RandomForest on player-centered residuals,
+  per-player HGB, Huber, player-mean}.
+- **Interpretation** — SHAP (on HGB), statsmodels MixedLM (ICC); KMeans clustering with a permutation null.
+
+HGB is the primary single-target regressor (best transfer + hold-out); the stacked blend is the best
+same-player competition model.
+
+## Performance
+*Metric legend — **skill** = 1 − MSE_model/MSE_baseline (higher better; 0 = ties the baseline). **scaled-MSE** =
+MSE on MinMax-scaled targets (angle [30,60], depth [−12,30], LR [−16,16]); lower better.*
+
+**(1) Out-of-shooter transfer — Scheme B (leave-one-player-out), skill vs per-player-mean (HGB).** The scientific headline.
+| target | v1 base | best v4 | verdict |
+|---|---|---|---|
+| **angle** | **+0.34** | **+0.43** (Ridge+temporal) | transfers ✅ |
+| depth | −0.54 | −0.49 (HGB+temporal) | no transfer |
+| left_right | −0.23 | −0.19 (HGB+temporal) | no transfer |
+
+**(2) Sealed hold-out (93 shots, HGB) — native-unit RMSE and skill vs global mean [95% CI].**
+| target | RMSE | skill vs global [CI] |
+|---|---|---|
+| **angle** | **3.13°** (vs 5.59° baseline) | **+0.69 [0.59, 0.80]** ✅ |
+| depth | 5.48 in | +0.12 [−0.08, 0.27] |
+| left_right | 4.09 in | −0.00 [−0.19, 0.12] |
+
+**(3) Official competition split (same 5 players, 345 train / 113 test) — scaled-MSE (lower better).**
+| model | overall | angle | depth | left_right |
+|---|---|---|---|---|
+| global mean | 0.0194 | 0.0268 | 0.0149 | 0.0166 |
+| per-player mean | 0.0125 | 0.0079 | 0.0132 | 0.0165 |
+| Ridge (v1) | 0.0116 | 0.0079 | 0.0115 | 0.0155 |
+| HGB | 0.0127 | 0.0096 | 0.0147 | 0.0139 |
+| **stacked blend (v3)** | **0.0109** | 0.0075 | 0.0119 | 0.0133 |
+| winner *(best of ~2500 subs)* | 0.0061 | — | — | — |
+
+The winner's 0.0061 is the minimum over ~2500 public-leaderboard submissions (a downward-biased order
+statistic); our 0.0109 is a single sealed-hold-out estimate — see `reports/REPORT.md` §3.5.
+
 ## Layout
 - `fta/` — pipeline: config, loader, release detection, features, tensors, CV, models, metric
 - `scripts/` — split, EDA, dataset build, experiments, interpretation, clustering, final/competition eval, ROCKET;
