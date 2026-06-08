@@ -1,0 +1,10 @@
+{
+  "measured_speed_median": 9.167662202296038,
+  "global_k": 3.5,
+  "reach_frac": 0.8136986301369863,
+  "scheme_a_scaled_mse": {
+    "angle": 0.01387892168484876,
+    "depth": 0.015802774909674272,
+    "left_right": 0.013989925457876645
+  }
+}

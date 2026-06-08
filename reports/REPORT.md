@@ -8,6 +8,19 @@ RMSE 3.1° vs 5.6°). **Depth and left/right are essentially not predictable** f
 motion is so distinctive that unsupervised clustering recovers all five players perfectly (ARI 1.00),
 and feature models only *tie* a "predict this shooter's average" baseline.
 
+**v4 update — the "correct physics" did not move the transfer wall (`reports/findings_v4.md`).**
+We implemented the competition winner's principles without leakage — kinetic chain (ankle→knee→hip→…→
+fingertip peak-speed sequencing, summation-of-speed ratios, COM forward thrust) and multi-temporal
+sampling of the depth/angle/left_right levers at fixed pre-release offsets — and tested the falsifiable
+claim that *force-flow / timing* features generalize across shooters where v1's *position* features did
+not. **Refuted for depth and left_right:** under leave-one-player-out (Scheme B), best transfer skill vs
+per-player-mean is **−0.49** (depth) and **−0.19** (left_right), CIs entirely below 0; adding physics to
+Ridge made transfer far worse. The lone gain is **angle +0.29 → +0.43** (multi-temporal). SHAP confirms
+the physics is the right *explanation* (COM forward thrust + ankle→knee timing are top depth drivers,
+"force not position"), but ICC shows the depth-bearing kinetics are themselves per-player signatures
+(between-player residual share rose 0.155 → 0.234), so with 5 shooters there is no shared mechanism to
+transfer. Physics told us *why* the wall exists; it did not move it.
+
 ---
 
 ## 1. Task & data
